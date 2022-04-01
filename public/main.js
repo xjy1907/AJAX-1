@@ -1,8 +1,26 @@
 
-
-
 console.log(`我是 main.js`);
-
+let n = 1
+getPAGE.onclick = () => {
+    const xhr = new XMLHttpRequest()
+    xhr.open('GET', `/page${n+1}.json`)
+    xhr.onreadystatechange = ()=>{
+        if(xhr.readyState === 4) {
+            if(xhr.status >=200 & xhr.status < 300) {
+                const array = JSON.parse(xhr.response)
+                const request = array.map(item=>`<li>${item.id}</li>`).join('')
+                document.querySelector('ul').innerHTML += request
+            } else {
+                
+            }
+            n++;
+            if(n===4) {
+                getPAGE.disabled = true
+            }
+        }
+    }
+    xhr.send()
+}
 getJSON.onclick = () => {
     const xhr = new XMLHttpRequest()
     xhr.open('GET', '/5.json')
